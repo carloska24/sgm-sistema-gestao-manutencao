@@ -1,0 +1,355 @@
+# 🤖 Cursor Rules - SGM Sistema de Gestão de Manutenção
+
+## Project Overview
+This is a full-stack maintenance management system (SGM - Sistema de Gestão de Manutenção) built with:
+- **Frontend**: Next.js 14+ (TypeScript, React, Tailwind CSS)
+- **Backend**: Node.js + Express (TypeScript/JavaScript)
+- **Database**: SQLite
+- **AI Integration**: Google Gemini API for checklist generation
+- **Authentication**: JWT-based
+
+## Project Structure
+```
+sgm/
+├── backend/                    # Express API server
+│   ├── routes/                # API endpoints
+│   ├── middleware/            # Auth, error handling
+│   ├── database.js           # SQLite setup
+│   └── server.js             # Entry point
+├── nextjs-frontend/          # Next.js frontend
+│   ├── app/                  # Pages and layouts
+│   ├── components/           # React components
+│   ├── contexts/             # Auth, Layout contexts
+│   ├── lib/                  # Utilities, API calls
+│   └── public/               # Static files
+└── docs/                     # Documentation
+```
+
+## Backend
+
+### Technology Stack
+- Node.js runtime
+- Express.js framework
+- SQLite database
+- JWT authentication
+- Zod for validation
+- Bcrypt for password hashing
+
+### Key Files
+- `database.js` - Database initialization and queries
+- `middleware/auth.js` - JWT authentication
+- `routes/auth.js` - Login/logout
+- `routes/users.js` - User management
+- `routes/checklists.js` - Maintenance checklists
+- `routes/equipment.js` - Equipment management
+- `routes/maintenance.js` - Maintenance orders
+- `routes/calls.js` - Service calls (Kanban)
+- `routes/plans.js` - Maintenance plans
+
+### API Endpoints Pattern
+- `GET /api/users` - List users
+- `GET /api/users/:id` - Get user
+- `PUT /api/users/:id` - Update user with photo_url support
+- `POST /api/checklists` - Create checklist
+- `POST /api/generate-checklist` - AI generation via Gemini
+
+### Environment Variables (.env)
+```
+NODE_ENV=development
+PORT=3001
+JWT_SECRET=secure-random-string
+DATABASE_URL=./sgm.db
+GEMINI_API_KEY=google-gemini-key
+CORS_ORIGIN=http://localhost:3000
+```
+
+### Database
+- SQLite database at `backend/sgm.db`
+- Auto-initializes on first run
+- Tables: users, equipment, maintenance, calls, checklists, etc.
+- photo_url field: LONGTEXT for base64 images
+
+## Frontend
+
+### Technology Stack
+- Next.js 14+ (React 18+)
+- TypeScript
+- Tailwind CSS
+- Framer Motion (animations)
+- Lucide React (icons)
+- Chart.js (data visualization)
+- Zustand/Context API (state)
+
+### Key Files
+- `app/layout.tsx` - Root layout with providers
+- `app/dashboard/page.tsx` - Main dashboard
+- `app/checklists/page.tsx` - Checklist carousel with card-by-card navigation
+- `app/equipment/page.tsx` - Equipment management
+- `app/maintenance/page.tsx` - Maintenance orders
+- `app/users/[id]/edit/page.tsx` - User profile editor with photo upload
+- `components/layout/Header.tsx` - Modern header with user avatar
+- `components/layout/Sidebar.tsx` - Navigation sidebar
+- `contexts/AuthContext.tsx` - Authentication context with reloadUser()
+- `lib/api.ts` - API client with caching
+- `lib/cache.ts` - Client-side cache utility
+
+### Component Guidelines
+- Use functional components with hooks
+- Client components marked with `'use client'`
+- Props typed with TypeScript interfaces
+- Responsive design with Tailwind classes
+- Animations with Framer Motion
+- Icons from Lucide React
+
+### Styling
+- Tailwind CSS utility classes
+- Dark theme (slate/neutral colors)
+- Gradient accents (green/emerald)
+- Mobile-first responsive design
+- Hover/focus states for accessibility
+
+### State Management
+- `AuthContext` - User authentication and profile
+- `LayoutContext` - Sidebar/fullscreen state
+- `useToast` - Toast notifications
+- `localStorage` - Persist user token
+- Client-side caching for API responses
+
+### API Client Pattern
+```typescript
+// Cached GET request
+const data = await fetchData('/endpoint', { useCache: true, cacheTTL: 60000 });
+
+// POST request
+await postData('/endpoint', { data });
+
+// PUT request with photo_url
+await putData('/users/:id', { photo_url: base64String, ... });
+```
+
+## Important Features
+
+### User Profile with Photo Upload
+- Profile picture upload on `app/users/[id]/edit/page.tsx`
+- Client-side image compression before upload
+- Base64 encoding for storage
+- Auto-reload user context after save
+- Avatar displays in Header with fallback to initials
+
+### Checklist Management
+- Horizontal card-by-card navigation
+- Card snapshots with keyboard controls
+- AI-powered checklist generation via Gemini API
+- Drag-and-drop support (when viewing list)
+
+### Performance Optimizations
+- Lazy loading with `next/dynamic`
+- Client-side caching with TTL
+- Data limit pagination (20 items default)
+- `Promise.all` for parallel fetching
+- Image compression on client
+
+### Security
+- JWT authentication
+- Password hashing with Bcrypt
+- .env files excluded from git
+- Sensitive data never logged
+- CORS protection
+
+## Development Workflow
+
+### Setup New Machine
+1. `git clone https://github.com/carloska24/sgm-sistema-gestao-manutencao.git`
+2. Create `.env` files (copy from .example)
+3. `npm install --prefix backend`
+4. `npm install --prefix nextjs-frontend`
+5. `npm run dev` (each terminal)
+
+### Duplicate Environment
+```bash
+# On current PC:
+powershell -ExecutionPolicy Bypass -File backup-ambiente.ps1
+
+# On new PC:
+powershell -ExecutionPolicy Bypass -File restaurar-ambiente.ps1
+```
+
+### Database Changes
+- Migrations in `backend/database.js`
+- Auto-create tables on startup
+- SQLite (single file, no setup needed)
+
+### Adding New Routes
+1. Create file in `backend/routes/`
+2. Use Zod for validation
+3. Return `{ success, data, error }`
+4. Export router from file
+
+### Adding New Pages
+1. Create file in `nextjs-frontend/app/[path]/page.tsx`
+2. Use `'use client'` if interactive
+3. Fetch data with `fetchData()`
+4. Use `MainLayout` wrapper
+
+## Code Style
+
+### Naming Conventions
+- `camelCase` for variables/functions
+- `PascalCase` for components/classes
+- `UPPER_CASE` for constants
+- Descriptive names (no `x`, `temp`, etc)
+
+### Comments
+- Use `//` for inline comments
+- Explain "why", not "what"
+- Keep comments updated
+- Remove commented code
+
+### TypeScript
+- Strict mode enabled
+- Export types in `types/index.ts`
+- Use interfaces over types for objects
+- Avoid `any` type
+
+### File Organization
+- One component per file
+- Related utilities grouped
+- Imports organized: deps → locals → relative
+- Max 300 lines per component
+
+## Common Tasks
+
+### Add a New User Field
+1. Update `users` table in `backend/database.js`
+2. Add to Zod schema in `backend/routes/users.js`
+3. Include in SELECT queries
+4. Update frontend types in `nextjs-frontend/types/index.ts`
+5. Add UI in user edit page
+
+### Generate Checklist via AI
+- POST to `/api/generate-checklist` with prompt
+- Gemini API returns structured JSON
+- Parse response for items
+- Validate field names (titulo/title, etc)
+
+### Fix CORS Issues
+- Backend CORS_ORIGIN must match frontend URL
+- Check `.env` files on both sides
+- Restart both servers after change
+
+### Handle Large Images
+- Compress on client before upload
+- Max 5MB file size (user choice)
+- Resize > 1000px
+- Convert to JPEG 70% quality
+- Store as base64 in database
+
+## Debugging
+
+### Backend Issues
+- Check `backend/.env` values
+- Verify database exists: `backend/sgm.db`
+- Check console for errors
+- Test API with Postman/curl
+- Look at middleware/auth logs
+
+### Frontend Issues
+- Check Network tab in DevTools
+- Verify API URL in `.env.local`
+- Check component render cycles
+- Look for console errors
+- Clear cache: `npm run build && npm run dev`
+
+### Environment Issues
+- `git status` should NOT show `.env`
+- `.env.example` should exist (without secrets)
+- `node_modules/` should NOT be committed
+- `sgm.db` should NOT be committed (except for backups)
+
+## Git Workflow
+
+### Commit Messages
+- Use conventional commits: `feat:`, `fix:`, `docs:`, etc
+- Keep messages under 50 characters
+- Include context in body if needed
+- Reference issues: `Fixes #123`
+
+### Security
+- NEVER commit `.env` files
+- NEVER commit database backups to main repo
+- Use `.gitignore` to exclude sensitive files
+- Review `git diff` before pushing
+- Use `npm ci` instead of `npm install` for reproducible builds
+
+### Branches
+- `main` - Production-ready code
+- `develop` - Development branch
+- Feature branches: `feature/description`
+- Bug fixes: `fix/description`
+
+## Resources
+
+### Documentation
+- `README.md` - Project overview
+- `SETUP_NOVO_PC.md` - Setup guide
+- `DUPLICAR_AMBIENTE_LOCAL.md` - Environment duplication
+- `SEGURANCA_GITHUB.md` - Security guidelines
+- `COMO_CONFIGURAR_ENV.md` - Environment setup
+
+### Links
+- [Next.js Docs](https://nextjs.org/docs)
+- [Express Docs](https://expressjs.com/)
+- [TypeScript Docs](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+
+## Quick Commands
+
+```bash
+# Development
+npm run dev              # Both frontend and backend
+cd backend && npm start  # Backend only
+cd nextjs-frontend && npm run dev  # Frontend only
+
+# Build
+npm run build --prefix backend
+npm run build --prefix nextjs-frontend
+
+# Linting
+npm run lint --prefix nextjs-frontend
+
+# Testing
+npm test --prefix backend
+
+# Database
+# SQLite - opens database browser (if installed)
+sqlite3 backend/sgm.db
+
+# Environment
+npm install --prefix backend     # Install backend deps
+npm install --prefix nextjs-frontend  # Install frontend deps
+npm ci --prefix backend          # Clean install for reproduction
+npm ci --prefix nextjs-frontend
+```
+
+## AI Assistance Guidelines
+
+When asking for help:
+1. Provide the file path and relevant code
+2. Describe what you want to achieve
+3. Mention any errors or unexpected behavior
+4. Share context about the related feature
+5. Include relevant environment details
+
+Example:
+"I want to add a new field 'status' to the equipment form. The field is in `nextjs-frontend/app/equipment/new/page.tsx` and I need to:
+1. Add validation in Zod schema
+2. Update the database
+3. Show it in the equipment list"
+
+---
+
+**Last Updated**: November 2025
+**Project Status**: ✅ Actively Maintained
+**Team**: Single Developer + AI Assistance
+

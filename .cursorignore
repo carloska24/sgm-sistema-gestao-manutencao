@@ -1,0 +1,55 @@
+# Cursor Ignore - Files to ignore in Cursor AI context
+
+# Dependencies
+node_modules/
+*/node_modules/
+.next/
+*/dist/
+*/build/
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+.pem
+*.key
+credentials.json
+
+# Database & Temporary
+*.db
+*.sqlite
+sgm.db
+backend/sgm.db
+*.log
+logs/
+temp/
+tmp/
+
+# OS & IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+
+# Testing
+coverage/
+.jest_cache/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Large files to skip
+AI\ gemini/
+node_modules/
+package-lock.json
+
