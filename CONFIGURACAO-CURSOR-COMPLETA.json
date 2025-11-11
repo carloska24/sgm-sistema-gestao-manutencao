@@ -1,0 +1,123 @@
+{
+  "versao": "1.0.0",
+  "descricao": "Configuração completa do ambiente Cursor para replicação em outros projetos",
+  "data": "2025-01-04",
+  
+  "instrucoes": {
+    "passo1": "Copie a pasta .vscode completa para o novo projeto",
+    "passo2": "Ou use o script: .\\aplicar-configuracao-cursor.ps1 -DestinoProjeto 'caminho'",
+    "passo3": "Abra o Cursor no novo projeto e recarregue a janela",
+    "passo4": "Instale as extensões recomendadas (serão sugeridas automaticamente)"
+  },
+  
+  "arquivos_necessarios": [
+    ".vscode/settings.json",
+    ".vscode/extensions.json",
+    ".vscode/tasks.json"
+  ],
+  
+  "extensoes_recomendadas": [
+    {
+      "id": "esbenp.prettier-vscode",
+      "nome": "Prettier - Code formatter",
+      "essencial": true
+    },
+    {
+      "id": "dbaeumer.vscode-eslint",
+      "nome": "ESLint",
+      "essencial": true
+    },
+    {
+      "id": "bradlc.vscode-tailwindcss",
+      "nome": "Tailwind CSS IntelliSense",
+      "essencial": false
+    },
+    {
+      "id": "ms-vscode.vscode-typescript-next",
+      "nome": "TypeScript and JavaScript Language Features",
+      "essencial": true
+    },
+    {
+      "id": "formulahendry.auto-rename-tag",
+      "nome": "Auto Rename Tag",
+      "essencial": false
+    },
+    {
+      "id": "christian-kohler.path-intellisense",
+      "nome": "Path Intellisense",
+      "essencial": false
+    },
+    {
+      "id": "ms-playwright.playwright",
+      "nome": "Playwright Test for VSCode",
+      "essencial": false
+    },
+    {
+      "id": "usernamehw.errorlens",
+      "nome": "Error Lens",
+      "essencial": false
+    },
+    {
+      "id": "wayou.vscode-todo-highlight",
+      "nome": "TODO Highlight",
+      "essencial": false
+    },
+    {
+      "id": "aaron-bond.better-comments",
+      "nome": "Better Comments",
+      "essencial": false
+    },
+    {
+      "id": "gruntfuggly.todo-tree",
+      "nome": "Todo Tree",
+      "essencial": false
+    },
+    {
+      "id": "eamodio.gitlens",
+      "nome": "GitLens",
+      "essencial": false
+    },
+    {
+      "id": "ms-vscode.vscode-json",
+      "nome": "JSON Language Features",
+      "essencial": false
+    }
+  ],
+  
+  "configuracoes_principais": {
+    "tema": "Default Dark+ com cores customizadas Slate",
+    "fonte_editor": "Inter, Cascadia Code, Fira Code",
+    "tamanho_fonte": 14,
+    "tab_size": 2,
+    "formatação_automatica": true,
+    "auto_save": true,
+    "auto_save_delay": 1000,
+    "terminal": "PowerShell (Windows)",
+    "prettier": {
+      "singleQuote": true,
+      "trailingComma": "es5",
+      "tabWidth": 2,
+      "semi": true,
+      "printWidth": 100,
+      "arrowParens": "avoid"
+    }
+  },
+  
+  "cores_tema": {
+    "fundo_principal": "#0f172a",
+    "painel": "#1e293b",
+    "texto_principal": "#e5e7eb",
+    "texto_secundario": "#94a3b8",
+    "bordas": "#334155",
+    "destaque": "#22c55e",
+    "selecao": "#8b5cf6",
+    "cursor": "#8b5cf6"
+  },
+  
+  "notas": {
+    "tasks_json": "O arquivo tasks.json contém caminhos específicos do projeto. Você precisará ajustá-los para o novo projeto.",
+    "fontes": "Para melhor experiência, instale as fontes: Inter, Cascadia Code ou Fira Code",
+    "prettier": "O Prettier está configurado para formatar automaticamente ao salvar. Certifique-se de ter a extensão instalada."
+  }
+}
+

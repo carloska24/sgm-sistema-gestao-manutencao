@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    container_name: sgm-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-sgm}
+      POSTGRES_USER: ${POSTGRES_USER:-sgm}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sgm_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-sgm}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:RELEASE.2024-01-18T22-51-28Z
+    container_name: sgm-minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-sgm}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-sgm_password}
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+  minio-setup:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: |
+      /bin/sh -c "
+      mc alias set sgm http://minio:9000 ${MINIO_ROOT_USER:-sgm} ${MINIO_ROOT_PASSWORD:-sgm_password};
+      mc mb -p sgm/sgm-uploads;
+      mc policy set public sgm/sgm-uploads;
+      "
+    restart: "no"
+
+volumes:
+  postgres_data:
+  minio_data:

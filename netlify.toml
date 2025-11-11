@@ -1,0 +1,53 @@
+[build]
+  # Base directory para o Next.js
+  base = "nextjs-frontend"
+  # Comando para build do Next.js
+  command = "npm install && npm run build"
+  # Diretório de publicação (será gerenciado pelo plugin do Next.js)
+  publish = ".next"
+
+# Configurações do Next.js
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# Plugin do Next.js para Netlify (ESSENCIAL para Next.js funcionar corretamente)
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Headers de segurança
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Cache para assets estáticos
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache para imagens
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Variáveis de ambiente (definidas no painel da Netlify)
+# NEXT_PUBLIC_API_URL - URL da API do backend
+# As variáveis devem ser configuradas no painel da Netlify
+
