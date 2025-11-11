@@ -1,45 +1,160 @@
+# ==========================================
 # Dependencies
+# ==========================================
 node_modules/
 /.pnp
 .pnp.js
+yarn.lock
+package-lock.json
 
+# ==========================================
 # Testing
+# ==========================================
 /coverage
+.nyc_output
 
-# Production
+# ==========================================
+# Production Build
+# ==========================================
 /build
 /dist
 /.next
 /out
+/public/service-worker.js
 
-# Misc
-.DS_Store
-*.pem
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Debug
-.next/
-.vercel
-
-# Local env files
+# ==========================================
+# Environment Variables (SENSÍVEL - NUNCA COMMITAR)
+# ==========================================
 .env
 .env.local
+.env.*.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.staging.local
 
-# IDE
+# ==========================================
+# Secrets e Credenciais (SENSÍVEL)
+# ==========================================
+*.pem
+*.key
+*.pub
+*.p8
+*.p12
+*.pfx
+.ssh/
+secrets/
+credentials.json
+.aws/
+.gcloud/
+
+# ==========================================
+# Database (Não commitamos dados locais)
+# ==========================================
+*.db
+*.sqlite
+*.sqlite3
+sgm.db
+backend/sgm.db
+/data/
+/database/
+
+# ==========================================
+# Logs e Debug
+# ==========================================
+*.log
+*.log.*
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ==========================================
+# IDE e Editor
+# ==========================================
 .vscode/
 .idea/
 *.swp
 *.swo
+*.swn
+*~
+.DS_Store
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.history/
+.ionide
 
-# Database
-*.db
-sgm.db
+# ==========================================
+# Cache
+# ==========================================
+.cache/
+.eslintcache
+.turbo/
+dist-ssr
+*.local
 
-# OS
+# ==========================================
+# OS Specific
+# ==========================================
 Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+desktop.ini
+
+# ==========================================
+# Upload e Arquivos Temporários
+# ==========================================
+uploads/
+temp/
+tmp/
+.tmp/
+*.tmp
+/public/uploads/
+
+# ==========================================
+# Build e Deployment
+# ==========================================
+.vercel/
+.netlify/
+dist/
+build/
+out/
+
+# ==========================================
+# Docker (Local)
+# ==========================================
+.dockerignore
+docker-compose.override.yml
+
+# ==========================================
+# Testing
+# ==========================================
+.jest_cache/
+coverage/
+*.lcov
+
+# ==========================================
+# Arquivos de Backup
+# ==========================================
+*.bak
+*.backup
+*.old
+~$*
+
+# ==========================================
+# Arquivos Específicos do Projeto
+# ==========================================
+/AI gemini/
+docs/private/
